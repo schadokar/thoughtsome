@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import thinksome from "./openai";
 import isValidTweet from "./tweet-validation";
 
@@ -26,6 +25,7 @@ class Suggestion extends Component {
       chars: 0,
       badgeClass: "primary",
       copyMessage: "",
+      validationMessage: "",
     };
   }
 
@@ -43,16 +43,25 @@ class Suggestion extends Component {
   };
 
   onSubmit = async () => {
-    let { thought } = this.state;
+    let { key, thought, isTwitter } = this.state;
 
-    if (thought) {
-      let touch = await thinksome(
-        this.state.key,
-        thought,
-        this.state.isTwitter
-      );
+    if (thought && key.length === 51) {
+      let touch = await thinksome(key, thought, isTwitter);
+
       this.setState({
         openaiThought: touch,
+      });
+    } else {
+      this.setState({
+        validationMessage: (
+          <Alert
+            variant="warning"
+            onClose={() => this.setState({ validationMessage: "" })}
+            dismissible
+          >
+            Key must be of 51 chars and thoughts can't be empty.
+          </Alert>
+        ),
       });
     }
   };
@@ -161,6 +170,7 @@ class Suggestion extends Component {
                     </Form.Text>
                   </Form.Group>
                 </Form>
+                {this.state.validationMessage}
               </Col>
               <Col>
                 <Card bg="dark" text="white" className="mb-2">
