@@ -1,11 +1,16 @@
 import { Configuration, OpenAIApi } from "openai";
 
-const thinksome = async (key, thought, isTwitter) => {
+const thinksome = async (key, token, thought, isTwitter) => {
   const config = new Configuration({
     apiKey: key,
   });
 
-  let token = 70;
+  console.log(typeof token);
+  return "asd";
+  if (!token) {
+    token = 70;
+  }
+
   if (isTwitter) {
     token = 64;
   }

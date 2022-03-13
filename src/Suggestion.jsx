@@ -20,7 +20,7 @@ class Suggestion extends Component {
       thought: "",
       openaiThought: "",
       key: "",
-      tokens: 0,
+      tokens: 70,
       isTwitter: false,
       chars: 0,
       badgeClass: "primary",
@@ -43,10 +43,10 @@ class Suggestion extends Component {
   };
 
   onSubmit = async () => {
-    let { key, thought, isTwitter } = this.state;
-
-    if (thought && key.length === 51) {
-      let touch = await thinksome(key, thought, isTwitter);
+    let { key, tokens, thought, isTwitter } = this.state;
+    console.log(tokens, typeof tokens);
+    if (thought && key.length !== 51) {
+      let touch = await thinksome(key, tokens, thought, isTwitter);
 
       this.setState({
         openaiThought: touch,
@@ -144,10 +144,23 @@ class Suggestion extends Component {
                     <Badge
                       pill
                       bg={this.state.badgeClass}
-                      style={{ float: "right", marginTop: "10px" }}
+                      style={{
+                        float: "right",
+                        marginTop: "5px",
+                        marginBottom: "5px",
+                      }}
                     >
                       {this.state.chars}
                     </Badge>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                      type="number"
+                      name="tokens"
+                      placeholder="token"
+                      onChange={this.onChange}
+                      value={this.state.tokens}
+                    />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicCheckbox">
                     <Form.Check
