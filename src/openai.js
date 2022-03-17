@@ -5,8 +5,6 @@ const thinksome = async (key, token, thought, isTwitter) => {
     apiKey: key,
   });
 
-  console.log(typeof token);
-  return "asd";
   if (!token) {
     token = 70;
   }

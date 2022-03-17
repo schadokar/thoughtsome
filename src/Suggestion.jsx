@@ -44,8 +44,8 @@ class Suggestion extends Component {
 
   onSubmit = async () => {
     let { key, tokens, thought, isTwitter } = this.state;
-    console.log(tokens, typeof tokens);
-    if (thought && key.length !== 51) {
+    //console.log(tokens, typeof tokens, key.length, key.length === 51);
+    if (thought && key.length === 51) {
       let touch = await thinksome(key, tokens, thought, isTwitter);
 
       this.setState({
